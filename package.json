@@ -1,11 +1,11 @@
 {
-  "name": "hook-decorator",
+  "name": "plugin-decorator",
   "version": "1.0.0",
-  "description": "hook-decorator",
+  "description": "plugin-decorator",
   "main": "build/main/index.js",
   "typings": "build/main/index.d.ts",
   "module": "build/module/index.js",
-  "repository": "https://github.com/YOUR_GITHUB_USER_NAME/hook-decorator",
+  "repository": "https://github.com/xiaobebe/plugin-decorator",
   "license": "MIT",
   "keywords": [],
   "scripts": {
@@ -33,7 +33,7 @@
     "clean": "trash build test",
     "all": "run-s reset test cov:check doc:html",
     "prepare-release": "run-s all version doc:publish",
-    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('hook-decorator must be installed with Yarn: https://yarnpkg.com/')\""
+    "preinstall": "node -e \"if(process.env.npm_execpath.indexOf('yarn') === -1) throw new Error('plugin-decorator must be installed with Yarn: https://yarnpkg.com/')\""
   },
   "scripts-info": {
     "info": "Display information about the package scripts",
