@@ -22,7 +22,7 @@ export function Hook(target, name, descriptor: PropertyDescriptor) {
         newArgs.splice(0, 0, next);
       }
 
-      return fn(...newArgs);
+      return fn.apply(target, newArgs);
     };
 
     const result = next();
