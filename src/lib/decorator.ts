@@ -1,11 +1,14 @@
 // @ts-ignore
+import { func } from 'prop-types';
+
+// @ts-ignore
 export function Hook(target, name, descriptor: PropertyDescriptor) {
   const targetFn = descriptor.value;
   const fnArr = [targetFn];
 
-  const runAction = <T>(...args: [T]) => {
+  const runAction = function<T>(...args: [T]) {
     const needToRunFn = [...fnArr];
-    const next = (...nextArgs) => {
+    const next = function(...nextArgs) {
       const newArgs = [...args] as any;
       if (nextArgs.length) {
         Object.keys(nextArgs).forEach(key => {
@@ -22,10 +25,10 @@ export function Hook(target, name, descriptor: PropertyDescriptor) {
         newArgs.splice(0, 0, next);
       }
 
-      return fn.apply(target, newArgs);
+      return fn.apply(this, newArgs);
     };
 
-    const result = next();
+    const result = next.apply(this || target);
 
     if (needToRunFn.length) {
       throw new Error('Error need to run next() in hooks!');
