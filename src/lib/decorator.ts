@@ -22,7 +22,7 @@ export function Hook(target, name, descriptor: PropertyDescriptor) {
       }
 
       if (fn !== targetFn) {
-        newArgs.splice(0, 0, next);
+        newArgs.splice(0, 0, next.bind(this));
       }
 
       return fn.apply(this, newArgs);
