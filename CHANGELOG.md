@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
 <a name="1.2.0"></a>
+# [1.2.0](https://github.com/xiaobebe/plugin-decorator/compare/v1.1.0...v1.2.0) (2019-06-21)
+
+
+### Bug Fixes
+
+* fix next() scope ([b060f14](https://github.com/xiaobebe/plugin-decorator/commit/b060f14))
+* fix running scope ([5dfc0b2](https://github.com/xiaobebe/plugin-decorator/commit/5dfc0b2))
+
+
+### Features
+
+* add uninstall ([98d4eef](https://github.com/xiaobebe/plugin-decorator/commit/98d4eef))
+
+
+
+<a name="1.2.0"></a>
 # 1.2.0 (2019-06-15)
 
 
