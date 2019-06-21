@@ -14,4 +14,16 @@ export default abstract class PluginTarget {
         }
       });
   }
+
+  public uninstall(plugin: Plugin) {
+    this.plugins.splice(this.plugins.indexOf(plugin), 1);
+
+    // tslint:disable-next-line:no-unused-expression
+    plugin.pluginHooks &&
+      plugin.pluginHooks.forEach(methodName => {
+        if (this[methodName] && this[methodName].removeHook) {
+          this[methodName].removeHook(plugin[methodName]);
+        }
+      });
+  }
 }

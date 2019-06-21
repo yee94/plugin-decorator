@@ -45,6 +45,14 @@ test('invoke method', t => {
   t.is(pluginTarget.method1(), 'plugin_result');
 });
 
-test('invoke promise method', async t => {
+test.serial('invoke promise method', async t => {
   t.is(await pluginTarget.methodPromise(), 'plugin_result');
+});
+
+test('uninstall plugin', async t => {
+  t.true(!!pluginTarget.plugins.length);
+  pluginTarget.uninstall(pluginTarget.plugins[0]);
+  t.true(!pluginTarget.plugins.length);
+
+  t.is(pluginTarget.method1(), 'result');
 });
