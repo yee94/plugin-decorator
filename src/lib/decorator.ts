@@ -4,25 +4,32 @@ import { func } from 'prop-types';
 // @ts-ignore
 export function Hook(target, name, descriptor: PropertyDescriptor) {
   const targetFn = descriptor.value;
-  const fnArr = [targetFn];
+  const fnArr = [];
 
-  const runAction = function<T>(...args: [T]) {
+  const runAction = function <T>(...args: [T]) {
     const needToRunFn = [...fnArr];
-    const next = function(...nextArgs) {
+    const next = function (...nextArgs) {
       const newArgs = [...args] as any;
       if (nextArgs.length) {
-        Object.keys(nextArgs).forEach(key => {
+        Object.keys(nextArgs).forEach((key) => {
           newArgs[key] = nextArgs[key];
         });
       }
 
-      const fn = needToRunFn.pop();
-      if (!fn) {
-        throw new Error('Error Hook');
+      const nextFnInfo = needToRunFn.pop();
+
+      let fn;
+      if (!nextFnInfo) {
+        fn = targetFn;
+      } else {
+        const [instance, method] = nextFnInfo;
+        fn = instance[method].bind(instance);
       }
 
       if (fn !== targetFn) {
-        newArgs.splice(0, 0, next.bind(this));
+        const injectFunction = next.bind(this);
+        injectFunction.instance = this;
+        newArgs.splice(0, 0, injectFunction);
       }
 
       return fn.apply(this, newArgs);
@@ -37,11 +44,12 @@ export function Hook(target, name, descriptor: PropertyDescriptor) {
     return result;
   };
 
-  runAction.addHook = fn => {
-    fnArr.push(fn);
+  runAction.addHook = (instance, method) => {
+    fnArr.push([instance, method]);
   };
-  runAction.removeHook = fn => {
-    if (fnArr.includes(fn)) {
+  runAction.removeHook = (instance, method) => {
+    const fn = fnArr.find((item) => item[0] === instance && item[1] === method);
+    if (fn) {
       fnArr.splice(fnArr.indexOf(fn), 1);
     }
   };
