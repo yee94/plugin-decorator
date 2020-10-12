@@ -1,4 +1,4 @@
-export default abstract class Plugin {
+export default class Plugin {
   public static pluginName: string = '';
   public readonly pluginHooks: string[]; // 不用指定，通过Inject自动添加
   public defaultOptions: any = {};
@@ -8,3 +8,5 @@ export default abstract class Plugin {
     this.options = Object.assign({}, this.defaultOptions, options);
   }
 }
+
+export type PluginConstructor = typeof Plugin;
