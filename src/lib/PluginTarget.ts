@@ -1,7 +1,7 @@
 import Plugin, { PluginConstructor } from './Plugin';
 
 export default abstract class PluginTarget {
-  private static $$installedPlugins: PluginConstructor[] = [];
+  protected static $$installedPlugins: PluginConstructor[] = [];
 
   public static install(plugin: PluginConstructor) {
     this.$$installedPlugins.push(plugin);
