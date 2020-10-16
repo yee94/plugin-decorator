@@ -1,5 +1,7 @@
 export default class Plugin {
   public static pluginName: string = '';
+  public static pluginSort: number;
+
   public readonly pluginHooks: string[]; // 不用指定，通过Inject自动添加
   public defaultOptions: any = {};
   public options: any = {};

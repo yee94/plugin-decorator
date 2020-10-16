@@ -23,6 +23,12 @@ export default abstract class PluginTarget {
   public plugins: Plugin[] = [];
 
   public install(plugin: Plugin) {
+    this.plugins = [...this.plugins, plugin].sort(
+      (a, b) =>
+        (a.constructor as PluginConstructor).pluginSort -
+        (b.constructor as PluginConstructor).pluginSort
+    );
+
     this.plugins.push(plugin);
 
     // tslint:disable-next-line:no-unused-expression
