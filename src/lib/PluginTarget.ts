@@ -14,8 +14,12 @@ export default abstract class PluginTarget {
     return {};
   }
 
-  protected init() {
+  protected init(options) {
     PluginTarget.$$installedPlugins.forEach((plugin) => {
+      if (!!plugin.pluginSwitch && !plugin.pluginSwitch(options)) {
+        console.log(`Plugin ${plugin.pluginName || plugin.name} not open, will not install !`);
+        return;
+      }
       this.install(new plugin(this.pluginContext));
     });
   }
@@ -28,6 +32,8 @@ export default abstract class PluginTarget {
         (a.constructor as PluginConstructor).pluginSort -
         (b.constructor as PluginConstructor).pluginSort
     );
+
+    plugin.mainInstance = this;
 
     this.plugins.push(plugin);
 
