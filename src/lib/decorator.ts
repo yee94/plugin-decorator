@@ -1,4 +1,4 @@
-import { DecoratorConfig, DecoratorFactory } from 'lodash-decorators';
+import { DecoratorConfig, DecoratorFactory } from 'lodash-decorators/factory';
 import { BindApplicator } from 'lodash-decorators/applicators';
 
 export const Hook = DecoratorFactory.createInstanceDecorator(
