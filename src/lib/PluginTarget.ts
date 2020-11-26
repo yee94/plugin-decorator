@@ -17,7 +17,11 @@ export default abstract class PluginTarget {
   protected init(options) {
     PluginTarget.$$installedPlugins.forEach((plugin) => {
       if (!!plugin.pluginSwitch && !plugin.pluginSwitch(options)) {
-        console.log(`Plugin ${plugin.pluginName || plugin.name} not open, will not install !`);
+        console.log(
+          `Plugin ${
+            plugin.pluginName || plugin.name
+          } not open, will not install !`
+        );
         return;
       }
       this.install(new plugin(this.pluginContext));
@@ -35,13 +39,11 @@ export default abstract class PluginTarget {
 
     plugin.mainInstance = this;
 
-    this.plugins.push(plugin);
-
     // tslint:disable-next-line:no-unused-expression
     plugin.pluginHooks &&
       plugin.pluginHooks.forEach((methodName) => {
         if (this[methodName] && this[methodName].addHook) {
-          this[methodName].addHook(plugin, methodName);
+          this[methodName].addHook.call(this, plugin, methodName);
         }
       });
   }
@@ -53,7 +55,7 @@ export default abstract class PluginTarget {
     plugin.pluginHooks &&
       plugin.pluginHooks.forEach((methodName) => {
         if (this[methodName] && this[methodName].removeHook) {
-          this[methodName].removeHook(plugin, methodName);
+          this[methodName].removeHook.call(this, plugin, methodName);
         }
       });
   }
