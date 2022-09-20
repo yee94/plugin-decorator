@@ -4,7 +4,7 @@
 [![MIT License](https://img.shields.io/npm/l/generator-bxd-oss.svg)](#License)
 [![NPM](https://img.shields.io/npm/v/plugin-decorator.svg)](https://www.npmjs.com/package/plugin-decorator)
 
-`plugin-decorator` 是一个工具库，可以为你的项目快速赋予插件能力！
+`plugin-decorator` is a library of tools to quickly empower your projects with plugins!
 
 ```typescript
 import { Hook, Inject, PluginTarget, Plugin } from 'plugin-decorator';
