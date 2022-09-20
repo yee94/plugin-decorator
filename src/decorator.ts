@@ -8,6 +8,7 @@ export const Hook = DecoratorFactory.createInstanceDecorator(
       const runAction = function <T>(...args: [T]) {
         const needToRunFn = [...fnArr];
         const next = function (...nextArgs) {
+
           const newArgs = [...args] as any;
           if (nextArgs.length) {
             Object.keys(nextArgs).forEach((key) => {
@@ -26,7 +27,7 @@ export const Hook = DecoratorFactory.createInstanceDecorator(
           }
 
           if (fn !== targetFn) {
-            const injectFunction = next.bind(this);
+            const injectFunction: any = next.bind(this);
             injectFunction.instance = this;
             newArgs.splice(0, 0, injectFunction);
           }
@@ -48,9 +49,7 @@ export const Hook = DecoratorFactory.createInstanceDecorator(
       };
 
       targetFn.removeHook = (instance, method) => {
-        const fn = fnArr.find(
-          (item) => item[0] === instance && item[1] === method
-        );
+        const fn = fnArr.find((item) => item[0] === instance && item[1] === method);
         if (fn) {
           fnArr.splice(fnArr.indexOf(fn), 1);
         }
@@ -59,8 +58,8 @@ export const Hook = DecoratorFactory.createInstanceDecorator(
       return runAction.bind(mainInstance);
     },
     new BindApplicator(),
-    { optionalParams: true, method: true }
-  )
+    { optionalParams: true, method: true },
+  ),
 ) as any;
 
 export function Inject(target, name, descriptor: PropertyDescriptor) {

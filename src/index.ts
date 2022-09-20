@@ -1,3 +1,3 @@
-export * from './lib/decorator';
-export { default as Plugin } from './lib/Plugin';
-export { default as PluginTarget } from './lib/PluginTarget';
+export * from './decorator';
+export { default as Plugin } from './Plugin';
+export { default as PluginTarget } from './PluginTarget';
