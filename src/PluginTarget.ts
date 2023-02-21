@@ -17,11 +17,7 @@ export default abstract class PluginTarget {
   protected init(options) {
     PluginTarget.$$installedPlugins.forEach((plugin) => {
       if (!!plugin.pluginSwitch && !plugin.pluginSwitch(options)) {
-        console.log(
-          `Plugin ${
-            plugin.pluginName || plugin.name
-          } not open, will not install !`
-        );
+        console.log(`Plugin ${plugin.pluginName || plugin.name} not open, will not install !`);
         return;
       }
       this.install(new plugin(this.pluginContext));
@@ -30,11 +26,9 @@ export default abstract class PluginTarget {
 
   public plugins: Plugin[] = [];
 
-  public install(plugin: Plugin) {
+  public install(plugin: Plugin & any) {
     this.plugins = [...this.plugins, plugin].sort(
-      (a, b) =>
-        (a.constructor as PluginConstructor).pluginSort -
-        (b.constructor as PluginConstructor).pluginSort
+      (a, b) => (a.constructor as PluginConstructor).pluginSort - (b.constructor as PluginConstructor).pluginSort,
     );
 
     plugin.mainInstance = this;
@@ -48,7 +42,7 @@ export default abstract class PluginTarget {
       });
   }
 
-  public uninstall(plugin: Plugin) {
+  public uninstall(plugin: Plugin & any) {
     this.plugins.splice(this.plugins.indexOf(plugin), 1);
 
     // tslint:disable-next-line:no-unused-expression

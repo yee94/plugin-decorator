@@ -8,7 +8,6 @@ export const Hook = DecoratorFactory.createInstanceDecorator(
       const runAction = function <T>(...args: [T]) {
         const needToRunFn = [...fnArr];
         const next = function (...nextArgs) {
-
           const newArgs = [...args] as any;
           if (nextArgs.length) {
             Object.keys(nextArgs).forEach((key) => {
