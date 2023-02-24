@@ -1,5 +1,5 @@
+import { Applicator, BindApplicator } from 'lodash-decorators/applicators';
 import { DecoratorConfig, DecoratorFactory } from 'lodash-decorators/factory';
-import { BindApplicator } from 'lodash-decorators/applicators';
 
 export const Hook = DecoratorFactory.createInstanceDecorator(
   new DecoratorConfig(
@@ -22,7 +22,7 @@ export const Hook = DecoratorFactory.createInstanceDecorator(
             fn = targetFn;
           } else {
             const [instance, method] = nextFnInfo;
-            fn = instance[method].bind(instance);
+            fn = method.bind(instance);
           }
 
           if (fn !== targetFn) {
@@ -61,12 +61,23 @@ export const Hook = DecoratorFactory.createInstanceDecorator(
   ),
 ) as any;
 
-export function Inject(target, name, descriptor: PropertyDescriptor) {
-  if (!target.pluginHooks) {
-    target.pluginHooks = [];
-  }
+export const Inject = DecoratorFactory.createDecorator(
+  new DecoratorConfig(
+    function (name, instance, targetFn) {
+      if (!instance.pluginHooks) {
+        instance.pluginHooks = [];
+      }
 
-  target.pluginHooks.push(name);
+      instance.pluginHooks.push([name, targetFn]);
 
-  return descriptor;
-}
+      return targetFn;
+    },
+    new (class extends Applicator {
+      apply({ value, config: { execute }, args, target }: any): any {
+        const name = args?.[0] ?? value.name;
+        return execute(name, target, value);
+      }
+    })(),
+    { method: true, optionalParams: true },
+  ),
+) as any;

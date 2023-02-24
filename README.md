@@ -10,14 +10,14 @@
 import { Hook, Inject, PluginTarget, Plugin } from 'plugin-decorator';
 
 class DemoTarget extends PluginTarget {
-  @Hook
+  @Hook()
   public method1() {
     console.log('origin method');
   }
 }
 
 class DemoPlugin extends Plugin {
-  @Inject
+  @Inject()
   public method1(next) {
     next();
     console.log('plugin method');
@@ -38,14 +38,14 @@ demoTarget.method1();
 import { Hook, Inject, PluginTarget, Plugin } from 'plugin-decorator';
 
 class DemoTarget extends PluginTarget {
-  @Hook
+  @Hook()
   public method1() {
     return 'origin method';
   }
 }
 
 class DemoPlugin extends Plugin {
-  @Inject
+  @Inject()
   public method1(next) {
     return `plugin ${next()}`;
   }
@@ -65,16 +65,16 @@ demoTarget.method1();
 import { Hook, Inject, PluginTarget, Plugin } from 'plugin-decorator';
 
 class DemoTarget extends PluginTarget {
-  @Hook
+  @Hook()
   public methodPromise() {
-    return new Promise(resolve => {
+    return new Promise((resolve) => {
       setTimeout(() => resolve('origin method'), 1000);
     });
   }
 }
 
 class DemoPlugin extends Plugin {
-  @Inject
+  @Inject()
   public async methodPromise(next) {
     return `plugin ${await next()}`;
   }
